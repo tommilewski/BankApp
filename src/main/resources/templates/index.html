@@ -202,8 +202,8 @@
       <tbody>
       <tr th:each="transfer, rowStat : ${transfers}">
         <td th:text="${#temporals.format(transfer.getTime(), 'dd.MM.yyyy')}"></td>
-        <td th:if="${transfer.getFromAccount().getId() == user.getId()}"   th:text="${transfer.getToAccount().getAppUser().getName()} + ' ' + ${transfer.getToAccount().getAppUser().getSurname()}"></td>
-        <td th:if="${transfer.getFromAccount().getId() != user.getId()}"   th:text="${transfer.getFromAccount().getAppUser().getName()} + ' ' + ${transfer.getFromAccount().getAppUser().getSurname()}"></td>
+        <td th:if="${transfer.getFromAccount().getId() == user.getId()}"   th:text="${transfer.getToAccount().getUser().getName()} + ' ' + ${transfer.getToAccount().getUser().getSurname()}"></td>
+        <td th:if="${transfer.getFromAccount().getId() != user.getId()}"   th:text="${transfer.getFromAccount().getUser().getName()} + ' ' + ${transfer.getFromAccount().getUser().getSurname()}"></td>
         <td th:text="${transfer.amount} + ' zł'"></td>
         <td th:if = "${user.getId() == transfer.getFromAccount().getId()}">Wysłany</td>
         <td th:if = "${user.getId() == transfer.getToAccount().getId()}">Odebrany</td>
