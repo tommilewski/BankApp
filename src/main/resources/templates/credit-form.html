@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Kredyt</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="/"><i class="fas fa-university mr-2"></i>Bank</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="text-white"><i class="fas fa-user mr-2"></i>Moje konto</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/transfer">Zrób przelew</a>
+            <a class="dropdown-item" href="/credit">Weź pożyczkę</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/logout">Wyloguj się</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <h1>Kredyt</h1>
+  <form th:action="@{/take-credit}" method="post">
+    <div class="form-group">
+      <label for="amount">Kwota:</label>
+      <input type="number" class="form-control" id="amount" name="amount" oninput="updateLoanValues()" required>
+    </div>
+    <div class="form-group">
+      <label for="installments">Liczba rat:</label>
+      <input type="range" class="form-control-range" id="installments" name="installments" min="1" max="36" oninput="updateLoanValues()" required>
+      <div id="installmentsValue">Liczba rat: 1</div>
+    </div>
+    <div class="form-group">
+      <label id="monthlyPaymentLabel">Miesięczna rata: 0 zł</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Weź kredyt</button>
+  </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script>
+  function updateLoanValues() {
+    var amount = parseInt(document.getElementById('amount').value);
+    var installments = parseInt(document.getElementById('installments').value);
+    var interestRate = getInterestRate(installments);
+    var monthlyPayment = calculateMonthlyPayment(amount, installments, interestRate);
+
+    document.getElementById('installmentsValue').innerText = 'Liczba rat: ' + installments;
+    document.getElementById('monthlyPaymentLabel').innerText = 'Miesięczna rata: ' + monthlyPayment.toFixed(2) + ' zł';
+  }
+
+  function getInterestRate(installments) {
+    // Ustawienie procentowego oprocentowania w zależności od liczby rat
+    if (installments <= 12) {
+      return 5; // 5%
+    } else if (installments <= 24) {
+      return 7; // 7%
+    } else {
+      return 10; // 10%
+    }
+  }
+
+  function calculateMonthlyPayment(amount, installments, interestRate) {
+    // Obliczenie miesięcznej raty na podstawie kwoty, liczby rat i oprocentowania
+    var interest = interestRate / 100;
+    var monthlyInterest = interest / 12;
+    var denominator = Math.pow(1 + monthlyInterest, installments) - 1;
+    var monthlyPayment = (amount * monthlyInterest * Math.pow(1 + monthlyInterest, installments)) / denominator;
+    return monthlyPayment;
+  }
+</script>
+</body>
+</html>

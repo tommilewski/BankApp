@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    .bank-icon {
+      font-size: 48px;
+    }
+    .account-info {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+
+    .account-info h2 {
+      margin-top: 0;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .account-info p {
+      margin-bottom: 5px;
+    }
+
+    .account-info .account-details {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .account-info .account-details .detail-item {
+      flex: 1;
+      text-align: center;
+    }
+
+    .account-info .account-details .detail-item .detail-label {
+      font-size: 14px;
+      color: #6c757d;
+    }
+
+    .account-info .account-details .detail-item .detail-value {
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container">
+    <a class="navbar-brand" href="/"><i class="fas fa-university mr-2"></i>Bank</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item" th:if="${isAuthenticated == 'anonymousUser'}">
+          <a class="nav-link text-white" href="/login">Zaloguj się</a>
+        </li>
+        <li class="nav-item dropdown" th:if="${isAuthenticated != 'anonymousUser'}">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="text-white"><i class="fas fa-user mr-2"></i>Moje konto</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/transfer">Zrób przelew</a>
+            <a class="dropdown-item" href="/credit">Weź pożyczkę</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/logout">Wyloguj się</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+
+<div class="container mt-4" th:if="${isAuthenticated == 'anonymousUser'}">
+  <h1 class="animate__animated animate__bounceInDown">Witaj w naszym banku!</h1>
+
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="card animate__animated animate__fadeInLeft">
+        <div class="card-body">
+          <h5 class="card-title">Otwórz konto osobiste</h5>
+          <p class="card-text">Dowiedz się więcej o naszych kontach osobistych i skorzystaj z naszych atrakcyjnych ofert.</p>
+          <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#kontoOsobisteModal">Dowiedz się więcej</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="card animate__animated animate__fadeInRight">
+        <div class="card-body">
+          <h5 class="card-title">Kredyty hipoteczne</h5>
+          <p class="card-text">Zapewniamy konkurencyjne warunki kredytowania na zakup domu lub mieszkania.</p>
+          <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#kredytHipotecznyModal">Dowiedz się więcej</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal - Konto Osobiste -->
+<div class="modal fade" id="kontoOsobisteModal" tabindex="-1" role="dialog" aria-labelledby="kontoOsobisteModalLabel" aria-hidden="true" th:if="${isAuthenticated == 'anonymousUser'}">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="kontoOsobisteModalLabel">Konto Osobiste - Dodatkowe informacje</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Konto Osobiste to idealne rozwiązanie dla Ciebie, jeśli szukasz bankowego konta zapewniającego wygodę, elastyczność i atrakcyjne korzyści.</p>
+        <ul>
+          <li>Darmowe prowadzenie konta.</li>
+          <li>Bezpieczne i wygodne korzystanie z bankowości internetowej.</li>
+          <li>Dostęp do szerokiej sieci bankomatów.</li>
+          <li>Atrakcyjne oprocentowanie na saldzie.</li>
+          <li>Możliwość skorzystania z karty debetowej.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal - Kredyt Hipoteczny -->
+<div class="modal fade" id="kredytHipotecznyModal" tabindex="-1" role="dialog" aria-labelledby="kredytHipotecznyModalLabel" aria-hidden="true" th:if="${isAuthenticated == 'anonymousUser'}">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="kredytHipotecznyModalLabel">Kredyt Hipoteczny - Dodatkowe informacje</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Nasz kredyt hipoteczny oferuje Ci możliwość sfinansowania zakupu wymarzonego domu lub mieszkania.</p>
+        <ul>
+          <li>Konkurencyjne oprocentowanie.</li>
+          <li>Długoterminowy okres kredytowania.</li>
+          <li>Możliwość uzyskania znacznej kwoty kredytu.</li>
+          <li>Eligibility dla różnych celów, takich jak zakup, remont lub refinansowanie nieruchomości.</li>
+          <li>Możliwość skorzystania z naszych ekspertów kredytowych w procesie aplikacyjnym.</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-4" th:if="${isAuthenticated != 'anonymousUser'}">
+  <div class="account-info">
+    <h2>Informacje o koncie</h2>
+    <div class="account-details">
+      <div class="detail-item">
+        <p class="detail-label">Imię</p>
+        <p class="detail-value" th:text="${user.getName()}"></p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">Nazwisko</p>
+        <p class="detail-value" th:text="${user.getSurname()}"></p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">email</p>
+        <p class="detail-value" th:text="${user.getUsername()}"></p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-label">Stan konta</p>
+        <p class="detail-value" th:text = "${user.getAccount().getBalance()} + ' zł'"></p>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Historia przelewów</h2>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Data</th>
+        <th>Nadawca/Odbiorca</th>
+        <th>Kwota</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="transfer, rowStat : ${transfers}">
+        <td th:text="${#temporals.format(transfer.getTime(), 'dd.MM.yyyy')}"></td>
+        <td th:if="${transfer.getFromAccount().getId() == user.getId()}"   th:text="${transfer.getToAccount().getAppUser().getName()} + ' ' + ${transfer.getToAccount().getAppUser().getSurname()}"></td>
+        <td th:if="${transfer.getFromAccount().getId() != user.getId()}"   th:text="${transfer.getFromAccount().getAppUser().getName()} + ' ' + ${transfer.getFromAccount().getAppUser().getSurname()}"></td>
+        <td th:text="${transfer.amount} + ' zł'"></td>
+        <td th:if = "${user.getId() == transfer.getFromAccount().getId()}">Wysłany</td>
+        <td th:if = "${user.getId() == transfer.getToAccount().getId()}">Odebrany</td>
+        <td>
+          <button type="button" class="btn btn-primary" data-toggle="modal" th:data-target="'#descriptionModal' + ${rowStat.count}">Zobacz opis</button>
+          <div class="modal fade" th:id="'descriptionModal' + ${rowStat.count}" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Opis przelewu</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p th:text="${transfer.getDescription()}"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>
