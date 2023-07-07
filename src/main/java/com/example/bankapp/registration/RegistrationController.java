@@ -14,13 +14,12 @@ public class RegistrationController {
     private final RegistrationService registrationService;
 
     @GetMapping("/register")
-    public String register(Model model){
-        model.addAttribute("registrationForm", new RegistrationRequest());
+    public String register(){
         return "register-form";
     }
 
     @PostMapping("/register")
-    public String processRegistrationForm(@ModelAttribute("registrationForm") RegistrationRequest registrationRequest) {
+    public String processRegistrationForm(RegistrationRequest registrationRequest) {
         registrationService.register(registrationRequest);
         return "redirect:/";
     }
