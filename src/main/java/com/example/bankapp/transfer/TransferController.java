@@ -3,10 +3,12 @@ package com.example.bankapp.transfer;
 import com.example.bankapp.user.User;
 import com.example.bankapp.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,10 +24,13 @@ public class TransferController {
     }
 
     @PostMapping("/make-transaction")
-    public String transfer(@RequestBody TransferData transferData) {
+    public String transfer(TransferData transferData) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
+
+        transferData.setFromEmail(name);
 
         TransferRequest transferRequest = getTransferRequest(transferData);
-
         transferService.makeTransfer(transferRequest);
 
         return "redirect:/";
