@@ -38,6 +38,17 @@ public class AccountService {
 
         accountRepository.save(fromAccount);
         accountRepository.save(toAccount);
+    }
+
+    @Transactional
+    public void takeCredit(Account account, BigDecimal amount) {
+        validateAmount(amount);
+
+        Account toAccount = accountRepository.findById(account.getId()).get();
+
+        BigDecimal accountAmountResult = toAccount.getBalance().add(amount);
+        toAccount.setBalance(accountAmountResult);
+        accountRepository.save(toAccount);
 
     }
 
