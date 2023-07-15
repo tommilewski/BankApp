@@ -13,6 +13,6 @@ import java.math.BigDecimal;
 public class CreditRequest {
     private Account toAccount;
     private BigDecimal amount;
-    private int rates;
+    private int installments;
     private BigDecimal monthlyPayment;
 }

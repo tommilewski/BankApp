@@ -1,6 +1,5 @@
 package com.example.bankapp.credit;
 
-import com.example.bankapp.account.AccountService;
 import com.example.bankapp.user.UserService;
 import com.example.bankapp.utils.CreditCalculator;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +32,7 @@ public class CreditController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
 
-        BigDecimal monthlyPayments = creditCalculator.calculateMonthlyPayment(creditRequest.getAmount(), creditRequest.getRates());
+        BigDecimal monthlyPayments = creditCalculator.calculateMonthlyPayment(creditRequest.getAmount(), creditRequest.getInstallments());
         creditRequest.setMonthlyPayment(monthlyPayments);
 
         creditRequest.setToAccount(userService.findAppUserByEmail(email).getAccount());

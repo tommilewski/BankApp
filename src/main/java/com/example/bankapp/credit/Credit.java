@@ -25,18 +25,19 @@ public class Credit {
     @JoinColumn(name = "to_account_id")
     private Account toAccount;
     private BigDecimal amount;
-    private int rates;
+    private int installments;
+    private int remainingInstallments;
     private OffsetDateTime startTime;
     private OffsetDateTime endTime;
-
     private BigDecimal monthlyPayment;
 
-    public Credit(Account toAccount, BigDecimal amount, int rates, OffsetDateTime startTime, BigDecimal monthlyPayment) {
+    public Credit(Account toAccount, BigDecimal amount, int installments, OffsetDateTime startTime, BigDecimal monthlyPayment) {
         this.toAccount = toAccount;
         this.amount = amount;
-        this.rates = rates;
+        this.installments = installments;
         this.startTime = startTime;
-        endTime = startTime.plusMonths(rates);
+        endTime = startTime.plusMonths(installments);
+        remainingInstallments = installments;
         this.monthlyPayment = monthlyPayment;
     }
 }
