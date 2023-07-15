@@ -18,9 +18,9 @@
       <input type="number" class="form-control" id="amount" name="amount" oninput="updateLoanValues()" required>
     </div>
     <div class="form-group">
-      <label for="rates">Liczba rat:</label>
-      <input type="range" class="form-control-range" id="rates" name="rates" min="1" max="36" oninput="updateLoanValues()" required>
-      <div id="installments">Liczba rat: 1</div>
+      <label for="installments">Liczba rat:</label>
+      <input type="range" class="form-control-range" id="installments" name="installments" min="1" max="36" oninput="updateLoanValues()" required>
+      <div id="rates">Liczba rat: 1</div>
     </div>
     <div class="form-group">
       <output id="monthlyPayment">Miesięczna rata: 0 zł</output>
@@ -35,7 +35,7 @@
 <script>
   function updateLoanValues() {
     var amount = parseInt(document.getElementById('amount').value);
-    var installments = parseInt(document.getElementById('rates').value);
+    var installments = parseInt(document.getElementById('installments').value);
     var interestRate = getInterestRate(installments);
     var monthlyPayment = calculateMonthlyPayment(amount, installments, interestRate);
 
