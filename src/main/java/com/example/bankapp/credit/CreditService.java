@@ -60,8 +60,6 @@ public class CreditService {
 
         deleteRepaidCredits();
     }
-
-    @Transactional
     private void deleteRepaidCredits() {
         List<Credit> credits = creditRepository.findAll();
         credits.stream()

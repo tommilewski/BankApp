@@ -3,6 +3,7 @@ package com.example.bankapp.credit;
 import com.example.bankapp.account.Account;
 import com.example.bankapp.account.AccountService;
 import com.example.bankapp.utils.TimeUtils;
+import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -15,13 +16,12 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CreditServiceTest {
@@ -105,6 +105,41 @@ class CreditServiceTest {
 
         verify(creditRepository, times(1)).delete(eq(credit1));
         verify(creditRepository, times(1)).delete(eq(credit2));
+    }
+    @Test
+    public void find_credits_by_account_correctly() {
+        Account account = new Account(new BigDecimal("1000"));
+
+        Credit credit1 = new Credit(account, new BigDecimal("100"), 5,
+                OffsetDateTime.of(2023, 7, 15, 12, 30, 0, 0, ZoneOffset.UTC), new BigDecimal("22"));
+        Credit credit2 = new Credit(account, new BigDecimal("1000"), 25,
+                OffsetDateTime.of(2023, 7, 15, 12, 30, 0, 0, ZoneOffset.UTC), new BigDecimal("100"));
+
+        List<Credit> expectedCredits = Arrays.asList(credit1, credit2);
+
+        when(creditRepository.findAllByToAccount(account)).thenReturn(List.of(credit1, credit2));
+
+        List<Credit> result = creditService.findCreditsByAccount(account);
+
+        verify(creditRepository, times(1)).findAllByToAccount(account);
+        assertEquals(expectedCredits, result);
+
+    }
+
+    @Test
+    void takeCredit_ValidCreditRequest_CallsAccountServiceAndSavesCredit() {
+        Account account = new Account(new BigDecimal("1000"));
+        BigDecimal amount = new BigDecimal("500");
+        int installments = 12;
+        BigDecimal monthlyPayment = new BigDecimal("50");
+
+        CreditRequest creditRequest = new CreditRequest(account, amount, installments, monthlyPayment);
+
+        doNothing().when(accountService).takeCredit(account, amount);
+
+        creditService.takeCredit(creditRequest);
+
+        verify(accountService, times(1)).takeCredit(account, amount);
     }
 
 
