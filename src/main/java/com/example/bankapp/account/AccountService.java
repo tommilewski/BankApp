@@ -28,7 +28,7 @@ public class AccountService {
         validateAccounts(fromAccount.getId(), toAccount.getId());
 
         BigDecimal fromAccountResult = fromAccount.getBalance().subtract(amount);
-        if (fromAccountResult.compareTo(new BigDecimal("0")) > 0){
+        if (fromAccountResult.compareTo(new BigDecimal("0")) >= 0){
             fromAccount.setBalance(fromAccountResult);
             BigDecimal toAccountResult = toAccount.getBalance().add(amount);
             toAccount.setBalance(toAccountResult);

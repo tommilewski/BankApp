@@ -1,5 +1,6 @@
 package com.example.bankapp.credit;
 
+import com.example.bankapp.account.Account;
 import com.example.bankapp.account.AccountService;
 import com.example.bankapp.utils.TimeUtils;
 import jakarta.transaction.Transactional;
@@ -19,6 +20,10 @@ public class CreditService {
     private final AccountService accountService;
 
     private final TimeUtils timeUtils;
+
+    public List<Credit> findCreditsByAccount(Account account) {
+        return creditRepository.findAllByToAccount(account);
+    }
 
     @Transactional
     public void takeCredit(CreditRequest creditRequest) {
